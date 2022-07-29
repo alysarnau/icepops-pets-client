@@ -13,7 +13,7 @@ import SignIn from './components/auth/SignIn'
 import SignOut from './components/auth/SignOut'
 import ChangePassword from './components/auth/ChangePassword'
 import ShowPet from './components/pets/ShowPet'
-import AddPet from './components/pets/AddPet'
+import CreatePet from './components/pets/CreatePet'
 
 const App = () => {
 
@@ -78,7 +78,7 @@ const App = () => {
 				path="/addPet"
 				element={ 
 					<RequireAuth user={user}>
-						<AddPet />
+						<CreatePet />
 					</RequireAuth>
 				}
 			/>

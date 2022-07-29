@@ -7,7 +7,8 @@ import {
 // name, type, age(number), adoptable (boolean)
 
 const PetForm = (props) => {
-    const { pet } = props
+    const { pet, handleChange } = props
+
     return (
         <div>
             <Form>
@@ -17,7 +18,8 @@ const PetForm = (props) => {
                     id="Name" 
                     type="text" 
                     placeholder="Enter Pet Name"
-                    // value={ pet.name }
+                    value={ pet.name }
+                    onChange={ handleChange }
                 />
                 <Form.Label htmlFor='type'>Pet Type</Form.Label>
                 <Form.Control 
@@ -25,7 +27,8 @@ const PetForm = (props) => {
                     id="type" 
                     type="text" 
                     placeholder="Enter Pet Type"
-                    // value={ pet.type }
+                    value={ pet.type }
+                    onChange={ handleChange }
                 />
                 <Form.Label htmlFor='age'>Pet Age</Form.Label>
                 <Form.Control 
@@ -33,14 +36,15 @@ const PetForm = (props) => {
                     id="age" 
                     type="number" 
                     placeholder="Enter Pet Age"
-                    // value={ pet.age }
+                    value={ pet.age }
+                    onChange={ handleChange }
                 />
                 <Form.Check
                     label="Is this pet adoptable?" 
                     id="adoptable" 
                     name="adoptable"
-                    // defaultChecked={ pet.adoptable }
-                    defaultChecked={false}
+                    defaultChecked={ pet.adoptable }
+                    onChange={ handleChange }
                 />
                 <Button 
                     variant="primary" 
