@@ -30,11 +30,11 @@ This is a client for our pets app. It will allow users to see and create new pet
 
 ### Pet Views
 
-| Route    | Description                         |
-|----------|-------------------------------------|
-| /   | pets index |
+| Route     | Description                         |
+|-----------|-------------------------------------|
+| /         | pets index |
 | /pets/:id | show single pet* |
-| /addPet | new pet page |
+| /addPet   | new pet page |
 
 *Pet show page will have a modal for updating. 
 Users will be able to delete via the show page.
