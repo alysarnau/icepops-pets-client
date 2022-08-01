@@ -49,25 +49,28 @@ const ShowPet = (props) => {
                 navigate('/');
             })
     }, [updated])
-    // here we'll declare a function that runs which will remove the pet
-    // this function's promise chain should send a message (success or failure), and then go somewhere 
+        // here we'll declare a function that runs which will remove the pet
+    // this function's promise chain should send a message, and then go somewhere
     const removeThePet = () => {
-        // this calls the function for the api
         removePet(user, pet.id)
-            // on success, send a success message
-            .then(msgAlert({
-                heading: 'Success freeing pet',
-                body: messages.deletePetSuccess,
-                variant: 'success',
-            }))
+            // on success send a success message
+            .then(() => {
+                msgAlert({
+                    heading: 'Success',
+                    message: messages.removePetSuccess,
+                    variant: 'success'
+                })
+            })
             // then navigate to index
-            .then(navigate('/'))
-            // on failure, send a failure message
-            .catch(msgAlert({
-                heading: 'Error freeing pet',
-                body: messages.deletePetFailure,
-                variant: 'danger',
-            }))
+            .then(() => {navigate('/')})
+            // on failure send a failure message
+            .catch(err => {                   
+                msgAlert({
+                    heading: 'Error removing pet',
+                    message: messages.removePetFailure,
+                    variant: 'danger'
+                })
+            })
     }
     // If pet hasn't been loaded yet, show a loading message
     if (!pet) {
@@ -91,9 +94,22 @@ const ShowPet = (props) => {
                     <Card.Footer>
                         {
                             pet.owner && user && pet.owner._id === user._id ? 
-                                <Button onClick={() => setEditModalShow(true)} className="m-2" variant="warning">
-                                    Edit Pet
-                                </Button>
+                                <>
+                                    <Button 
+                                        onClick={() => setEditModalShow(true)} 
+                                        className="m-2" 
+                                        variant="warning"
+                                    >
+                                        Edit Pet
+                                    </Button> 
+                                    <Button 
+                                        onClick={() => removeThePet()} 
+                                        className="m-2" 
+                                        variant="danger"
+                                    >
+                                        Set the Pet Free
+                                    </Button> 
+                                </>
                                 :
                                 null
                         }
