@@ -18,7 +18,7 @@ export const updateToy = (user, petId, updatedToy) => {
     console.log('the user in updateToy', user)
     console.log('the updated toy in updateToy', updatedToy)
 	return axios({
-		url: `${apiUrl}/toys/${petId}/${updatedToy.id}`,
+		url: `${apiUrl}/toys/${petId}/${updatedToy._id}`,
 		method: 'PATCH',
 		headers: {
 			Authorization: `Token token=${user.token}`,

@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { Card,Button } from 'react-bootstrap'
 // import EditToyModal when that's been built
+import EditToyModal from './EditToyModal';
 // import removeToy for delete button
-import { deleteToy } from '../../api/toys'
+import { deleteToy, updateToy } from '../../api/toys'
 
 const ShowToy = (props) => {
     // destructure some props
     const { toy, pet, user, msgAlert, triggerRefresh } = props
     // here's where we'll put the hook to open the EditToyModal when we get there
+    const [editModalShow, setEditModalShow] = useState(false)
     // this will set a color depending on the toy's condition
     const setBgCondition = (cond) => {
         if (cond === 'new') {
@@ -56,6 +58,7 @@ const ShowToy = (props) => {
                             <Button 
                                 variant="warning" 
                                 className="m-2"
+                                onClick={() => setEditModalShow(true)}
                             >
                                 Edit Toy
                             </Button>
@@ -71,6 +74,15 @@ const ShowToy = (props) => {
                     }
                 </Card.Footer>
             </Card>
+            <EditToyModal 
+                user={user}
+                pet={pet}
+                toy={toy}
+                show={editModalShow}
+                handleClose={() => setEditModalShow(false)}
+                msgAlert={msgAlert}
+                triggerRefresh={triggerRefresh}
+            />
         </>
     );
 }
