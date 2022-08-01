@@ -1,11 +1,12 @@
 import React from 'react';
 import { 
     Container,
-    Card 
+    Card,
+    Button 
 } from 'react-bootstrap';
 import LoadingScreen from '../shared/LoadingScreen';
-// import getOnePet function
-import { getOnePet } from '../../api/pets';
+// import pet API functions
+import { updatePet, getOnePet, removePet } from '../../api/pets';
 // this will allow us to set our params
 import { 
     useParams,
@@ -18,9 +19,13 @@ import {
     useState, 
     useEffect 
 } from 'react'
+import EditPetModal from './EditPetModal';
 
 const ShowPet = (props) => {
     const [pet, setPet] = useState(null)
+    // for the edit pet modal!
+    const [editModalShow, setEditModalShow] = useState(false) 
+    const [updated, setUpdated] = useState(false)
 
     // destructuring to get the id value from our route params
     const { id } = useParams();
@@ -28,7 +33,9 @@ const ShowPet = (props) => {
     // useNav returns a function
     // we can call that function to redirect the user wherever we want to
 
-    const { msgAlert } = props;
+    const { user, msgAlert } = props;
+    console.log('the pet in props', pet)
+    console.log('user in props', user)
     useEffect(() => {
         getOnePet(id)
             .then(res => setPet(res.data.pet))
@@ -41,27 +48,68 @@ const ShowPet = (props) => {
                 // navigate back to the home page if there's an error fetching
                 navigate('/');
             })
-    }, [])
+    }, [updated])
+    // here we'll declare a function that runs which will remove the pet
+    // this function's promise chain should send a message (success or failure), and then go somewhere 
+    const removeThePet = () => {
+        // this calls the function for the api
+        removePet(user, pet.id)
+            // on success, send a success message
+            .then(msgAlert({
+                heading: 'Success freeing pet',
+                body: messages.deletePetSuccess,
+                variant: 'success',
+            }))
+            // then navigate to index
+            .then(navigate('/'))
+            // on failure, send a failure message
+            .catch(msgAlert({
+                heading: 'Error freeing pet',
+                body: messages.deletePetFailure,
+                variant: 'danger',
+            }))
+    }
     // If pet hasn't been loaded yet, show a loading message
     if (!pet) {
         return <LoadingScreen />
     }
     
     return (
-        <Container className='fluid'>
-            <Card>
-                <Card.Header>{ pet.fullTitle }</Card.Header>
-                <Card.Body>
-                    <Card.Text>
-                        <div><small>Age: { pet.age }</small></div>
-                        <div><small>Type: { pet.type }</small></div>
-                        <div><small>
-                            Adoptable: { pet.adoptable ? 'yes' : 'no'}
-                        </small></div>
-                    </Card.Text>
-                </Card.Body>
-            </Card>
-        </Container>
+        <>
+            <Container className='fluid'>
+                <Card>
+                    <Card.Header>{ pet.fullTitle }</Card.Header>
+                    <Card.Body>
+                        <Card.Text>
+                            <div><small>Age: { pet.age }</small></div>
+                            <div><small>Type: { pet.type }</small></div>
+                            <div><small>
+                                Adoptable: { pet.adoptable ? 'yes' : 'no'}
+                            </small></div>
+                        </Card.Text>
+                    </Card.Body>
+                    <Card.Footer>
+                        {
+                            pet.owner && user && pet.owner._id === user._id ? 
+                                <Button onClick={() => setEditModalShow(true)} className="m-2" variant="warning">
+                                    Edit Pet
+                                </Button>
+                                :
+                                null
+                        }
+                    </Card.Footer>
+                </Card>
+            </Container>
+            <EditPetModal 
+                user = {user}
+                pet = {pet}
+                show = {editModalShow}
+                updatePet = {updatePet}
+                msgAlert = {msgAlert}
+                triggerRefresh  = {() => setUpdated(prev => !prev)}
+                handleClose = {() => setEditModalShow((false))}
+            />
+        </>
     );
 }
 

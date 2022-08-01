@@ -9,6 +9,10 @@ const messages = {
 	getPetsFailure: 'Error fetching pets',
 	createPetSuccess: 'Pet created successfully!',
 	createPetFailure: 'Error creating pet',
+	updatePetSuccess: 'Pet updated successfully!',
+	updatePetFailure: 'Error updating pet',
+	deletePetSuccess: 'Pet has been set free!',
+	deletePetFailure: 'Error freeing pet, please try again.',
 }
 
 module.exports = messages
