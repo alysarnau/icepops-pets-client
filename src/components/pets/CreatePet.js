@@ -2,7 +2,7 @@ import { useState } from 'react'
 import PetForm from '../shared/PetForm';
 import { createPet } from '../../api/pets';
 import { useNavigate } from 'react-router-dom';
-import { createPetSuccess } from '../shared/AutoDismissAlert/messages';
+import messages from '../shared/AutoDismissAlert/messages'
 
 const CreatePet = (props) => {
     const navigate = useNavigate()
@@ -51,21 +51,20 @@ const CreatePet = (props) => {
         // we want it to hit the createPet function
         createPet(user, pet)
         // if successful, navigate to the show page for the new pet
-        // send a success message to the user
             .then((res) => { navigate(`/pets/${res.data.pet.id}`)})
+        // send a success message to the user
             .then(() =>
                 msgAlert({
                     heading: 'Create Pet Success',
-                    message: 'Success creating pet',
+                    message: messages.createPetSuccess,
                     variant: 'success',
                 })
             )
             .catch(msgAlert({
-                heading: 'Oh no!',
-                message: 'Error creating pet',
+                heading: 'Create Pet Error',
+                message: messages.createPetFailure,
                 variant: 'danger',
             }))
-        // we want to redirect the user to either the index or the show page
     }
     return (
         <>

@@ -10,12 +10,12 @@ export const getOnePet = (id) => {
 }
 
 export const createPet = (user, newPet) => {
-    console.log('createPet in API was hit')
+    // console.log('createPet in API was hit')
     // in our createPet form, we're building an object
     // when we pass that object into the api createPet function, it's going to look like the pets in our database
     // we're going to refer to this as newPet
-    console.log('this is user:', user)
-    console.log('this is newPet', newPet)
+    // console.log('this is user:', user)
+    // console.log('this is newPet', newPet)
 	return axios({
 		url: apiUrl + '/pets',
 		method: 'POST',
