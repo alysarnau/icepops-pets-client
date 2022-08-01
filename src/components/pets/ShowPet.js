@@ -25,6 +25,9 @@ const ShowPet = (props) => {
     const [pet, setPet] = useState(null)
     // for the edit pet modal!
     const [editModalShow, setEditModalShow] = useState(false) 
+    // for the Toy modal!
+    const [toyModalShow, setToyModalShow] = useState(false)
+    // to let us know when to rerender!
     const [updated, setUpdated] = useState(false)
 
     // destructuring to get the id value from our route params
@@ -92,6 +95,13 @@ const ShowPet = (props) => {
                         </Card.Text>
                     </Card.Body>
                     <Card.Footer>
+                        <Button 
+                            onClick={() => setToyModalShow(true)}
+                            className="m-2"
+                            variant="info"
+                        >
+                            Give ${pet.name} a Toy!
+                        </Button>
                         {
                             pet.owner && user && pet.owner._id === user._id ? 
                                 <>
