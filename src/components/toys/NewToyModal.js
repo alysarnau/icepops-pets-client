@@ -1,65 +1,66 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
-import ToyForm from '../shared/ToyForm';
-import messages from '../shared/AutoDismissAlert/messages'
-import { createToy } from '../../api/toys';
+import ToyForm from '../shared/ToyForm'
+import { createToy } from '../../api/toys'
+
 
 const NewToyModal = (props) => {
-    console.log('here are the props in the NewPetModal', props)
-    // these props come from the parent component
     const { 
-        user, 
-        pet,
-        show, 
-        handleClose, 
-        msgAlert, 
-        triggerRefresh, 
+        user, pet, show, handleClose, msgAlert, triggerRefresh
     } = props
-    const [toy, setToy] = useState(props.toy)
-    console.log('toy in toy modal', toy)
+
+    const [toy, setToy] = useState({})
+
+    console.log('pet in edit modal', pet)
+
     const handleChange = (e) => {
-        // we got this same function from create!
         setToy(prevToy => {
-            let value = e.target.value;
-            const name = e.target.name;
+            let value = e.target.value
+            const name = e.target.name
+
+            console.log('this is the input type', e.target.type)
+
+            // this handles the checkbox, changing on to true etc
             if (name === "isSqueaky" && e.target.checked) {
                 value = true
             } else if (name === "isSqueaky" && !e.target.checked) {
                 value = false
             }
+
             const updatedToy = {
                 [name]: value
             }
             return {
-                ...prevToy, 
+                ...prevToy,
                 ...updatedToy
             }
         })
     }
+
     const handleSubmit = (e) => {
-        // this is where we put createToy! We need (user, petId)
-        // once again, we get a similar function from createToy component
-        e.preventDefault();
-        // we want it to hit the createToy function
+        // e equals the event
+        e.preventDefault()
+
         createToy(user, pet._id, toy)
-        // if we're successful in the modal, we want the modal to close
+            // if we're successful in the modal, we want the modal to close
             .then(() => handleClose())
-            .then(() =>
+            // send a success message to the user
+            .then(() => {
                 msgAlert({
-                    heading: 'Create Toy Success',
-                    message: messages.createToySuccess,
-                    variant: 'success',
+                    heading: 'Oh Yeah!',
+                    message: 'Great! The pet loves it!',
+                    variant: 'success'
+                })
+            })
+            .then(() => triggerRefresh())
+            // if there is an error, tell the user about it
+            .catch(() => 
+                msgAlert({
+                    heading: 'Oh No!',
+                    message: 'Something went wrong, please try again',
+                    variant: 'danger'
                 })
             )
-            // if successful, we need to trigger a refresh for the show page so we see the new information immediately
-            // this refreshes the state of the toy component to the updated information!
-            .then(()=> triggerRefresh())
-            // this tells the user about an error
-            .catch(msgAlert({
-                heading: 'Create Toy Error',
-                message: messages.createToyFailure,
-                variant: 'danger',
-            }))
     }
 
     return (
@@ -74,7 +75,7 @@ const NewToyModal = (props) => {
                 />
             </Modal.Body>
         </Modal>
-    );
+    )
 }
 
-export default NewToyModal;
+export default NewToyModal

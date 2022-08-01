@@ -20,6 +20,15 @@ import {
     useEffect 
 } from 'react'
 import EditPetModal from './EditPetModal';
+import NewToyModal from '../toys/NewToyModal';
+import ShowToy from '../toys/ShowToy';
+
+// we'll use a style object to lay out the toy cards
+const cardContainerLayout = {
+    display: 'flex',
+    justifyContent: 'center',
+    flexFlow: 'row wrap'
+}
 
 const ShowPet = (props) => {
     const [pet, setPet] = useState(null)
@@ -75,6 +84,20 @@ const ShowPet = (props) => {
                 })
             })
     }
+    let toyCards
+    if (pet) {
+        if (pet.toys.length > 0) {
+            toyCards = pet.toys.map(toy => (
+                <ShowToy 
+                    key={toy._id}
+                    toy={toy}
+                    pet={pet}
+                    user={user}
+                    msgAlert={msgAlert}
+                />
+            ))
+        }
+    }
     // If pet hasn't been loaded yet, show a loading message
     if (!pet) {
         return <LoadingScreen />
@@ -100,7 +123,7 @@ const ShowPet = (props) => {
                             className="m-2"
                             variant="info"
                         >
-                            Give ${pet.name} a Toy!
+                            Give {pet.name} a Toy!
                         </Button>
                         {
                             pet.owner && user && pet.owner._id === user._id ? 
@@ -126,6 +149,9 @@ const ShowPet = (props) => {
                     </Card.Footer>
                 </Card>
             </Container>
+            <Container style={cardContainerLayout}>
+                {toyCards}
+            </Container>
             <EditPetModal 
                 user = {user}
                 pet = {pet}
@@ -134,6 +160,14 @@ const ShowPet = (props) => {
                 msgAlert = {msgAlert}
                 triggerRefresh  = {() => setUpdated(prev => !prev)}
                 handleClose = {() => setEditModalShow((false))}
+            />
+            <NewToyModal 
+                pet={pet}
+                show={toyModalShow}
+                user={user}
+                msgAlert={msgAlert}
+                triggerRefresh  = {() => setUpdated(prev => !prev)}
+                handleClose = {() => setToyModalShow((false))}
             />
         </>
     );
