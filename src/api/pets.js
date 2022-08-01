@@ -15,13 +15,13 @@ export const createPet = (newPet, user) => {
     // we're going to refer to this as newPet
     console.log('this is user:', user)
     console.log('this is newPet', newPet)
-	return axios({
-		url: apiUrl + '/pets',
-		method: 'POST',
-		headers: {
-			Authorization: `Token token=${user.token}`,
-		},
-        // since newPet and pet have the same fields, we just have to do this!
-		data: { pet: newPet } ,
-	})
+	// return axios({
+	// 	url: apiUrl + '/pets',
+	// 	method: 'POST',
+	// 	headers: {
+	// 		Authorization: `Token token=${user.token}`,
+	// 	},
+    //     // since newPet and pet have the same fields, we just have to do this!
+	// 	data: { pet: newPet } ,
+	//})
 }

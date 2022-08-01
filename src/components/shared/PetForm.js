@@ -1,16 +1,18 @@
 import {
     Form,
-    Button
+    Button,
+    Container
 } from 'react-bootstrap'
 
 // pet model fields:
 // name, type, age(number), adoptable (boolean)
 
 const PetForm = (props) => {
-    const { pet, handleChange } = props
+    const { pet, handleChange, heading } = props
 
     return (
-        <div>
+        <Container className="justify-content-center">
+            <h3>{heading}</h3>
             <Form>
                 <Form.Label htmlFor='Name'>Pet Name</Form.Label>
                 <Form.Control 
@@ -53,7 +55,7 @@ const PetForm = (props) => {
                     Submit
                 </Button>
             </Form>
-        </div>
+        </Container>
     );
 }
 
