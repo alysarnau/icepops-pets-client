@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import PetForm from '../shared/PetForm';
 
-const CreatePet = () => {
+const CreatePet = (props) => {
+    // in unit 2, we assigned the user through the session
+    // in this unit, we assign the user through the Token!
+    console.log('these are the props in CreatePet \n', props)
     const [pet, setPet] = useState({
         name: '',
         type: '',
@@ -22,9 +25,12 @@ const CreatePet = () => {
                 // AND the new one!
                 // this will overwrite the stuff that changes in the previous state WHILE STILL keeping the new stuff!
                 ...updatedPet
-                
             }
         })
+    }
+    // we'll add a handleSubmit function here that makes an API request that handles the response
+    const handleSubmit = (e) => {
+
     }
     return (
         <div>

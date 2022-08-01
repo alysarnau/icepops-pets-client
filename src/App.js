@@ -78,7 +78,7 @@ const App = () => {
 				path="/addPet"
 				element={ 
 					<RequireAuth user={user}>
-						<CreatePet />
+						<CreatePet msgAlert={msgAlert} user={user} />
 					</RequireAuth>
 				}
 			/>
