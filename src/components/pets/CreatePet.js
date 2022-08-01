@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import PetForm from '../shared/PetForm';
 import { createPet } from '../../api/pets';
+import { useNavigate } from 'react-router-dom';
+import { createPetSuccess } from '../shared/AutoDismissAlert/messages';
 
 const CreatePet = (props) => {
+    const navigate = useNavigate()
+    const { user, msgAlert } = props
     // in unit 2, we assigned the user through the session
     // in this unit, we assign the user through the Token!
     console.log('these are the props in CreatePet \n', props)
@@ -44,7 +48,24 @@ const CreatePet = (props) => {
     // we'll add a handleSubmit function here that makes an API request that handles the response
     const handleSubmit = (e) => {
         e.preventDefault();
-        // createPet()
+        // we want it to hit the createPet function
+        createPet(user, pet)
+        // if successful, navigate to the show page for the new pet
+        // send a success message to the user
+            .then((res) => { navigate(`/pets/${res.data.pet.id}`)})
+            .then(() =>
+                msgAlert({
+                    heading: 'Create Pet Success',
+                    message: 'Success creating pet',
+                    variant: 'success',
+                })
+            )
+            .catch(msgAlert({
+                heading: 'Oh no!',
+                message: 'Error creating pet',
+                variant: 'danger',
+            }))
+        // we want to redirect the user to either the index or the show page
     }
     return (
         <>
@@ -52,6 +73,7 @@ const CreatePet = (props) => {
                 pet={ pet } 
                 handleChange={ handleChange } 
                 heading="Add a New Pet"
+                handleSubmit={ handleSubmit }
             />
         </>
     );

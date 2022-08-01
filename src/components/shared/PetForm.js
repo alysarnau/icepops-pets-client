@@ -8,12 +8,12 @@ import {
 // name, type, age(number), adoptable (boolean)
 
 const PetForm = (props) => {
-    const { pet, handleChange, heading } = props
+    const { pet, handleChange, handleSubmit, heading } = props
 
     return (
         <Container className="justify-content-center">
             <h3>{heading}</h3>
-            <Form>
+            <Form onSubmit={handleSubmit}>
                 <Form.Label htmlFor='Name'>Pet Name</Form.Label>
                 <Form.Control 
                     name="name" 
